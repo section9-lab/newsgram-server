@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -33,13 +33,10 @@ class TestDnsController {
         String dns = "www.baidu.com";
         given(dnsService.findDnsInfo(any())).willReturn(null);
 
-                mockMvc
-                .perform(
-                        post("/dns-info")
+        mockMvc.perform(
+                        get("/dns-info?domain=" + dns)
                 )
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.questionId").value(1))
-        ;
+                .andExpect(status().isOk());
     }
 
 }
