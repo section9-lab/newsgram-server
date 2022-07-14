@@ -7,12 +7,21 @@ on:
   pull_request:
 
 jobs:
-  build:
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Deploy code
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: dns-insight-service
-          heroku_email: section9lab@gmail.com
+          heroku_app_name: "dns-insight-service"
+          heroku_email: "section9lab@gmail.com"
+          dontuseforce: true
+          dontautocreate: true
