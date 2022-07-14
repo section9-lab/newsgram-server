@@ -1,11 +1,11 @@
 package com.github.dnsinsight.service;
 
 import cn.hutool.core.util.RuntimeUtil;
-import cn.hutool.core.util.StrUtil;
+import com.github.dnsinsight.controller.vo.DnsInfoVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @Author: Tachikoma
@@ -13,11 +13,21 @@ import java.util.stream.Collectors;
  * @Description:
  */
 @Service
+@Slf4j
 public class DnsService {
-    public List<String> findDnsInfo(String domain) {
-        return RuntimeUtil.execForLines("dig " + domain)
-                .stream()
-                .filter(StrUtil::isNotBlank)
-                .collect(Collectors.toList());
+    public DnsInfoVo findDnsInfo(String domain) {
+
+        List<String> aa = RuntimeUtil.execForLines("dig +short aa" + domain);
+        List<String> aaaa = RuntimeUtil.execForLines("dig +short aaaa" + domain);
+        List<String> ns = RuntimeUtil.execForLines("dig +short ns" + domain);
+        List<String> mx = RuntimeUtil.execForLines("dig +short mx" + domain);
+        List<String> cname = RuntimeUtil.execForLines("dig +short cname" + domain);
+
+        return DnsInfoVo.builder().build()
+                .setAa(aa)
+                .setAaaa(aaaa)
+                .setNs(ns)
+                .setMx(mx)
+                .setCname(cname);
     }
 }
