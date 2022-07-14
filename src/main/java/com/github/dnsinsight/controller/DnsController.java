@@ -1,12 +1,12 @@
 package com.github.dnsinsight.controller;
 
+import com.github.dnsinsight.common.response.Response;
+import com.github.dnsinsight.controller.vo.DnsInfoVo;
 import com.github.dnsinsight.service.DnsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @Author: Tachikoma
@@ -20,7 +20,7 @@ public class DnsController {
     private DnsService dnsService;
 
     @GetMapping("/dns-info")
-    public List<String> searchDnsInfo(@RequestParam String domain){
-        return dnsService.findDnsInfo(domain);
+    public Response<DnsInfoVo> searchDnsInfo(@RequestParam String domain){
+        return Response.success(dnsService.findDnsInfo(domain));
     }
 }
