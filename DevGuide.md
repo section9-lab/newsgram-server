@@ -26,3 +26,9 @@ uvicorn main:app --reload
 > app：在 main.py 文件中通过 app = FastAPI() 创建的对象。
 
 > --reload：让服务器在更新代码后重新启动。仅在开发时使用该选项。
+
+###  展示
+http://127.0.0.1:8000
+
+### 接口文档
+http://127.0.0.1:8000/docs
