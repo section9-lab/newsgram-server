@@ -7,8 +7,9 @@ app = FastAPI()
 @app.get("/")
 async def root():
     res = {
-        "time": datetime.now(),
-        "des": "this is home page"
+        'time': datetime.now(),
+        'des': 'this is home page'
+        'help' 'try: https://dns-insight-service.onrender.com/url/www.example.com'
     }
     return res
 
