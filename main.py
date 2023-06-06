@@ -1,8 +1,8 @@
-from fastapi import FastAPI
+from flask import Flask
 from datetime import datetime
 import whois
 
-app = FastAPI()
+app = Flask(__name__)
 
 @app.get("/")
 async def root():
