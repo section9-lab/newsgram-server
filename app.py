@@ -5,7 +5,6 @@ from urllib.parse import urlparse
 import tldextract
 import whois
 import requests
-import sys
 
 app = Flask(__name__)
 
@@ -48,18 +47,18 @@ def sub_url(site, pages=10):
             (int(i) - 1) * 10) + "&FORM=PERE"
         conn = requests.session()
         conn.get('http://cn.bing.com', headers=headers)
-        html = conn.get(url, stream=True, headers=headers, timeout=10)
+        html = conn.get(url, stream=True, headers=headers, timeout=5)
         soup = BeautifulSoup(html.content, 'html.parser')
         job_bt = soup.findAll('h2')
         for i in job_bt:
             link = i.a.get('href')
-            suffix=tldextract.extract(link).suffix
+            suffix = tldextract.extract(link).suffix
             domain = tldextract.extract(link).domain
             subdomain = tldextract.extract(link).subdomain
             if subdomain is None:
                 domains = str(urlparse(link).scheme + "://" + domain + "." + suffix)
             else:
-                domains = str(urlparse(link).scheme + "://" + subdomain+"."+domain+"."+suffix)
+                domains = str(urlparse(link).scheme + "://" + subdomain + "." + domain + "." + suffix)
             if domains is None:
                 pass
             if domains in Subdomain:
