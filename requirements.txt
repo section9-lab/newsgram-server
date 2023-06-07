@@ -1,5 +1,6 @@
 flask
 Gunicorn
 requests
+tldextract
 BeautifulSoup4
 python-whois
