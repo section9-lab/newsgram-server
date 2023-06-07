@@ -4,16 +4,17 @@ import whois
 
 app = Flask(__name__)
 
-@app.get("/")
+@app.route("/", methods=['GET'])
 def root():
     res = {
         'time': datetime.now(),
         'des': 'this is home page'
-        'help' 'try: https://dns-insight-service.onrender.com/url/www.example.com'
+               'help' 'try: https://dns-insight-service.onrender.com/url/www.example.com'
     }
     return res
 
-@app.get("/url/{item_url}")
+
+@app.route("/url/<item_url>", methods=['GET'])
 def get_url(item_url):
     if item_url == None:
         item_url = "www.baidu.com"
