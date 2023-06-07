@@ -18,6 +18,7 @@ def root():
     }
     return res
 
+
 @app.route("/whois/<domain>", methods=['GET'])
 def whois(domain):
     if domain is None:
@@ -27,28 +28,33 @@ def whois(domain):
     }
     return res
 
-@app.route("/sub_domain/<domain>", methods=['GET'])
-def sub_domain(domain, page=10):
-    if domain is None:
-        return "input is null"
-    Subdomain_list = []
-    headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:55.0) Gecko/20100101 Firefox/55.0'}
-    for i in range(int(page)):
-        try:
-            url = "https://cn.bing.com/search?q=site%3A" + domain + "&qs=n&form=QBRE&sp=-1&pq=site%3A" + domain + "&sc=2-11&sk=&cvid=C1A7FC61462345B1A71F431E60467C43&toHttps=1&redig=3FEC4F2BE86247E8AE3BB965A62CD454&pn=2&first=1&FROM=PERE"  # .format(i)
-            response = requests.get(url, headers=headers, timeout=3)
-        except:
-            pass
-        soup = BeautifulSoup(response.content, 'html.parser')
-        job_bt = soup.findAll('h2')
-        for in_bt in job_bt:
-            link = in_bt.a.get('href')
-            domain = str(urlparse(link).scheme + "://" + urlparse(link).netloc)
-            Subdomain_list.append(domain)
-    Subdomain_list = list(set(Subdomain_list))  # 去重
-    print(Subdomain_list)
 
-    res = {
-        "data": Subdomain_list
+@app.route("/sub_url/<site>", methods=['GET'])
+def sub_url(site, pages=10):
+    if site is None:
+        return "input is null"
+    Subdomain = []
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0',
+        'Accept': '*/*',
+        'Accept-Language': 'en-us,en;q=0.5',
+        'Accept-Encoding': 'qzip,deflate',
+        'referer': 'http://cn.bing.com/search?q=email+site%3abaidu.com&qs=n&sp=-1&pq=emailsie%3abaidu.com&first=2&FORM=PERE1'
     }
-    return res
+
+    for i in range(1, int(pages) + 1):
+        url = "https://cn.bing.com/search?q=site%3a" + site + "&go=Search&qs=ds&first=" + str(
+            (int(i) - 1) * 10) + "&FORM=PERE"
+        conn = requests.session()
+        conn.get('http://cn.bing.com', headers=headers)
+        html = conn.get(url, stream=True, headers=headers, timeout=8)
+        soup = BeautifulSoup(html.content, 'html.parser')
+        job_bt = soup.findAll('h2')
+        for i in job_bt:
+            link = i.a.get('href')
+            domain = str(urlparse(link).scheme + "://" + urlparse(link).netloc)
+            if domain in Subdomain:
+                pass
+            else:
+                Subdomain.append(domain)
+    return Subdomain
