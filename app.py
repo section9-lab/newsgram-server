@@ -28,7 +28,7 @@ def whois(domain):
     return res
 
 @app.route("/sub_domain/bing/<domain>", methods=['GET'])
-def sub_domain(domain, page=100):
+def sub_domain(domain, page=10):
     if domain is None:
         return "input is null"
     Subdomain_list = []
