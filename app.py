@@ -2,6 +2,7 @@ from flask import Flask
 from datetime import datetime
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
+import tldextract
 import whois
 import requests
 import sys
@@ -43,18 +44,27 @@ def sub_url(site, pages=10):
     }
 
     for i in range(1, int(pages) + 1):
-        url = "https://cn.bing.com/search?q=site%3a" + site + "&go=Search&qs=ds&first=" + str(
+        url = "https://cn.bing.com/search?q=site%3a" + site + "&qs=n&form=QBRE&go=Search&qs=ds&first=" + str(
             (int(i) - 1) * 10) + "&FORM=PERE"
         conn = requests.session()
         conn.get('http://cn.bing.com', headers=headers)
-        html = conn.get(url, stream=True, headers=headers, timeout=8)
+        html = conn.get(url, stream=True, headers=headers, timeout=10)
         soup = BeautifulSoup(html.content, 'html.parser')
         job_bt = soup.findAll('h2')
         for i in job_bt:
             link = i.a.get('href')
-            domain = str(urlparse(link).scheme + "://" + urlparse(link).netloc)
-            if domain in Subdomain:
+            suffix=tldextract.extract(link).suffix
+            domain = tldextract.extract(link).domain
+            subdomain = tldextract.extract(link).subdomain
+            if subdomain is None:
+                domains = str(urlparse(link).scheme + "://" + domain + "." + suffix)
+            else:
+                domains = str(urlparse(link).scheme + "://" + subdomain+"."+domain+"."+suffix)
+            if domains is None:
+                pass
+            if domains in Subdomain:
                 pass
             else:
-                Subdomain.append(domain)
+                Subdomain.append(domains)
+                print(domains)
     return Subdomain
