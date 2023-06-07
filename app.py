@@ -12,9 +12,9 @@ app = Flask(__name__)
 @app.route("/", methods=['GET'])
 def root():
     res = {
-        'time': datetime.now(),
-        'des': 'this is home page'
-               'help' 'try: https://dns-insight-service.onrender.com/url/www.example.com'
+        'Time': datetime.now(),
+        'About': 'this is home page',
+        'Help': 'Please try   https://dns-insight-service.onrender.com/url/www.example.com'
     }
     return res
 
