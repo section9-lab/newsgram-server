@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 from datetime import datetime
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
@@ -6,17 +7,12 @@ import tldextract
 import whois
 import requests
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./dist', template_folder='./dist', static_url_path='')
 
 
 @app.route("/", methods=['GET'])
 def root():
-    res = {
-        'Time': datetime.now(),
-        'About': 'this is home page',
-        'Help': 'Please try   https://dns-insight-service.onrender.com/url/www.example.com'
-    }
-    return res
+    return render_template('index.html', name='index')
 
 
 @app.route("/whois/<domain>", methods=['GET'])
