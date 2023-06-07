@@ -18,6 +18,14 @@ def root():
     }
     return res
 
+@app.route("/whois/<domain>", methods=['GET'])
+def whois(domain):
+    if domain is None:
+        return "input is null"
+    res = {
+        "whois": whois.whois(domain),
+    }
+    return res
 
 @app.route("/sub_domain/bing/<domain>", methods=['GET'])
 def sub_domain(domain, page=100):
@@ -41,7 +49,6 @@ def sub_domain(domain, page=100):
     print(Subdomain_list)
 
     res = {
-        "whois": whois.whois(domain),
         "data": Subdomain_list
     }
     return res
