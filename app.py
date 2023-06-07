@@ -5,7 +5,7 @@ import whois
 app = Flask(__name__)
 
 @app.get("/")
-async def root():
+def root():
     res = {
         'time': datetime.now(),
         'des': 'this is home page'
@@ -14,7 +14,7 @@ async def root():
     return res
 
 @app.get("/url/{item_url}")
-async def get_url(item_url):
+def get_url(item_url):
     if item_url == None:
         item_url = "www.baidu.com"
     res = {
