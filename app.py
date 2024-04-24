@@ -9,7 +9,7 @@ import requests
 import json
 
 app = Flask(__name__, static_folder='./dist', template_folder='./dist', static_url_path='')
-
+app.config['JSON_AS_ASCII'] = False
 
 @app.route("/", methods=['GET'])
 def root():
