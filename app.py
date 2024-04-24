@@ -18,10 +18,24 @@ def root():
 
 @app.route("/news", methods=['GET'])
 def news():
-    data = {
-        "user_name": "libai",
-        "user_age": 18,
-    }
+    data = [
+        {
+            "title": "新闻标题1",
+            "content": "新闻内容谢谢谢谢谢谢谢谢谢谢谢谢谢谢谢谢1",
+        },
+        {
+            "title": "新闻标题2",
+            "content": "新闻内容谢谢谢谢谢谢谢谢谢谢谢谢谢谢谢谢1",
+        },
+                {
+            "title": "新闻标题3",
+            "content": "新闻内容谢谢谢谢谢谢谢谢谢谢谢谢谢谢谢谢1",
+        },
+                {
+            "title": "新闻标题4",
+            "content": "新闻内容谢谢谢谢谢谢谢谢谢谢谢谢谢谢谢谢1",
+        },
+    ]
     return json.dumps(data)
 
 
