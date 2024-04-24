@@ -13,13 +13,11 @@ app = Flask(__name__, static_folder='./dist', template_folder='./dist', static_u
 CORS(app)
 
 @app.route("/", methods=['GET'])
-@cross_origin(supports_credentials=True)
 def root():
     return render_template('index.html', name='index')
 
 
 @app.route("/news", methods=['GET'])
-@cross_origin(supports_credentials=True)
 def news():
     data = [
         {
