@@ -16,6 +16,7 @@ def root():
     return render_template('index.html', name='index')
 
 
+@app.route("/news", methods=['GET'])
 def news():
     data = {
         "user_name": "libai",
