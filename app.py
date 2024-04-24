@@ -6,6 +6,7 @@ from urllib.parse import urlparse
 import tldextract
 import whois
 import requests
+import json
 
 app = Flask(__name__, static_folder='./dist', template_folder='./dist', static_url_path='')
 
@@ -13,6 +14,14 @@ app = Flask(__name__, static_folder='./dist', template_folder='./dist', static_u
 @app.route("/", methods=['GET'])
 def root():
     return render_template('index.html', name='index')
+
+
+def news():
+    data = {
+        "user_name": "libai",
+        "user_age": 18,
+    }
+    return json.dumps(data)
 
 
 @app.route("/whois/<domain>", methods=['GET'])
