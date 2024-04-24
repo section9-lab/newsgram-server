@@ -1,6 +1,6 @@
 from flask import Flask
 from flask import render_template
-from flask_cors import *
+from flask_cors import CORS
 from datetime import datetime
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
@@ -10,7 +10,7 @@ import requests
 import json
 
 app = Flask(__name__, static_folder='./dist', template_folder='./dist', static_url_path='')
-app.config['JSON_AS_ASCII'] = False
+CORS(app)
 
 @app.route("/", methods=['GET'])
 @cross_origin(supports_credentials=True)
