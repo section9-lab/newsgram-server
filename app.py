@@ -9,6 +9,7 @@ import whois
 import requests
 import json
 
+
 app = Flask(__name__, static_folder='./dist', template_folder='./dist', static_url_path='')
 CORS(app)
 
@@ -16,9 +17,45 @@ CORS(app)
 def root():
     return render_template('index.html', name='index')
 
-
+"""
+curl --location --request POST 'https://api.coze.com/open_api/v2/chat' 
+--header 'Authorization: Bearer pat_rElexXLd5jhNOwpJ7T9R5ELpzWiDZ420hCJwpgXYYRjSm5rAoz0QtDgHV5QdMqK5' 
+--header 'Content-Type: application/json' 
+--header 'Accept: */*' 
+--header 'Host: api.coze.com' 
+--header 'Connection: keep-alive' 
+--data-raw '{
+    "conversation_id": "123",
+    "bot_id": "7360968597655257096",
+    "user": "29032201862555",
+    "query": "run",
+    "stream": false
+}'
+"""
 @app.route("/news", methods=['GET'])
-def news():
+def coze():
+    """
+    coze api
+    """
+    '''
+    url="https://api.coze.com/open_api/v2/chat"
+    headers={
+        'Authorization': 'Bearer pat_rElexXLd5jhNOwpJ7T9R5ELpzWiDZ420hCJwpgXYYRjSm5rAoz0QtDgHV5QdMqK5',
+        'Content-Type': 'application/json',
+        'Accept': '*/*',
+        'Host': 'api.coze.com',
+        'Connection': 'keep-alive' 
+    }
+    data_json = {
+            "stream": False,
+            "conversation_id": "123",
+            "bot_id": "7360968597655257096",
+            "user": "29032201862555",
+            "query": "run"
+        }
+    response = requests.post(url=url,headers=headers,data=json.dumps(data_json))
+    response.text
+    '''
     data = [
         {
             "title": "新闻标题1",
@@ -38,6 +75,26 @@ def news():
         },
     ]
     return json.dumps(data)
+
+
+
+@app.route("/hacker", methods=['GET'])
+def hackerNews():
+    data = []
+    ''' 请求HackerNews '''
+    url="https://news.ycombinator.com/news"
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+    }
+    response = requests.get(url=url,headers=headers)
+    html = response.text
+    
+    bs = BeautifulSoup(html,'html.parser')
+    data.append(bs.body)
+
+    return json.dumps(data)
+
+
 
 
 @app.route("/whois/<domain>", methods=['GET'])
